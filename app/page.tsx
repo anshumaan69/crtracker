@@ -1,15 +1,28 @@
+'use-client'
+import { useEffect, useState } from "react";
+
+export default function Home(){
+  const [coins,setCoins]= useState([]);
+  useEffect(()=>{
+    //calling the next js api
+    fetch('/api/market')
+    .then((res)=>res.json())
+    .then((data)=>setCoins(data));
+  },
+  [])
 
 
-export default function Home() {
-  return (
-    <div className="app">
-
-      <h1 className="text-5xl flex justify-center ">
-        CRYPTO TRACKER
-      </h1>
-
-
+  return(
+    <div>
+      <h1>Crypto Marketplace</h1>
+      {coins.map((coin)=>(
+        <div key={coin.id}>{coin.name}:${coin.currentPrice}</div>
+      ))}
     </div>
-    
-  );
+  )
+
 }
+
+
+
+
