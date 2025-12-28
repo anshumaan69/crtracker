@@ -1,4 +1,4 @@
-'use-client'
+'use client'
 import { useEffect, useState } from "react";
 
 export default function Home(){
@@ -16,7 +16,7 @@ export default function Home(){
     <div>
       <h1>Crypto Marketplace</h1>
       {coins.map((coin)=>(
-        <div key={coin.id}>{coin.name}:${coin.currentPrice}</div>
+        <div key={coin.id}>{coin.name}:${coin.current_price}</div>
       ))}
     </div>
   )

@@ -1,28 +1,29 @@
-import { error } from "console";
 import { NextResponse } from "next/server";
-const coingeckoUrl = 
+
+// CHANGE 1: URL ko base path pe change kiya
+const BASE_URL = "https://api.coingecko.com/api/v3"; 
 const api = process.env.API;
 
-export async function GET(){
-    const res = await fetch(something,{
-        headers:{
-            'x-cg-demo-api-key':api;
-        },
-        next:{revalidate:60}
-        //ye cache krdega req ko for 60 sec 
-        // that is next js will serve this same data to all users for 1 min     
-        // this will protect the API limit
-    });
-    if(!res.ok){
-        return NextResponse.json({
-            error   :'failed to fetch data '
-        },{
-            status:500
+export async function GET() {
+    // CHANGE 2: Single quotes (') ki jagah Backticks (`) lagaye hain
+    const res = await fetch(
+        `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false`, 
+        {
+            headers: {
+                'x-cg-demo-api-key': api,
+            },
+            next: { revalidate: 60 } 
         }
-    )
+    );
+
+    if (!res.ok) {
+        // Error handling thoda clean kiya hai
+        return NextResponse.json(
+            { error: 'Failed to fetch data from CoinGecko' },
+            { status: res.status }
+        );
     }
 
     const data = await res.json();
-
     return NextResponse.json(data);
 }
